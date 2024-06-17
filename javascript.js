@@ -1,7 +1,24 @@
-console.log("Hello,World!!!")
+const playerRock = document.getElementById('rock');
+const playerPaper = document.getElementById('paper');
+const playerScissors = document.getElementById('scissors');
+const results = document.getElementById('result');
+const winOrLose = document.getElementById('winLose');
+const humanScores = document.getElementById('humanScore');
+const computerScores = document.getElementById('computerScore');
+const resetDiv = document.getElementById('reset');
 
 let humanScore = 0;
 let computerScore = 0;
+
+playerRock.addEventListener('click', ()=>{
+    playRound("rock",getComputerChoice());
+})
+playerPaper.addEventListener('click', ()=>{
+    playRound("paper",getComputerChoice());
+})
+playerScissors.addEventListener('click', ()=>{
+    playRound("scissors",getComputerChoice());
+})
 
 function getComputerChoice() {
     let choice = Math.random() * 3;
@@ -13,52 +30,73 @@ function getComputerChoice() {
     } else return "scissors"
 }
 
-function getHumanChoice() {
-    return prompt("What will you play?");
-}
-
 function playRound(human,computer) {
-    const humanPick = human.toLowerCase();
+    const humanPick = human;
     const computerPick = computer;
     
     if(humanPick == "rock" && computerPick == "rock") {
-        console.log("Draw! You both chose Rock");
+        results.innerText = "Draw! You both chose Rock";
     }
     if(humanPick == "rock" && computerPick == "paper") {
-        console.log("You lose! Paper beats Rock");
-        computerScore++
+        results.innerText = "You lose! Paper beats Rock";
+        computerScore++;
+        updateStatus();
     }
     if(humanPick == "rock" && computerPick == "scissors") {
-        console.log("You win! Rock beats Scissors");
-        humanScore++
+        results.innerText = "You win! Rock beats Scissors";
+        humanScore++;
+        updateStatus();
     }
     if(humanPick == "paper" && computerPick == "rock") {
-        console.log("You win! Paper beats Rock");
-        humanScore++
+        results.innerText = "You win! Paper beats Rock";
+        humanScore++;
+        updateStatus();
     }
     if(humanPick == "paper" && computerPick == "paper") {
-        console.log("Draw! You both chose Paper");
+        results.innerText = "Draw! You both chose Paper";
     }
     if(humanPick == "paper" && computerPick == "scissors") {
-        console.log("You lose! Scissors beats Paper");
-        computerScore++
+        results.innerText = "You lose! Scissors beats Paper";
+        computerScore++;
+        updateStatus();
     }
     if(humanPick == "scissors" && computerPick == "rock") {
-        console.log("You lose! Rock beats Scissors");
-        computerScore++
+        results.innerText = "You lose! Rock beats Scissors";
+        computerScore++;
+        updateStatus();
     }
     if(humanPick == "scissors" && computerPick == "paper") {
-        console.log("You win! Scissors beats Paper");
-        humanScore++
+        results.innerText = "You win! Scissors beats Paper";
+        humanScore++;
+        updateStatus();
     }
     if(humanPick == "scissors" && computerPick == "scissors") {
-        console.log("Draw! You both chose Scissors");
+        results.innerText = "Draw! You both chose Scissors";
     }
 
 }
 
-playRound(getHumanChoice(),getComputerChoice());
-playRound(getHumanChoice(),getComputerChoice());
-playRound(getHumanChoice(),getComputerChoice());
-playRound(getHumanChoice(),getComputerChoice());
-playRound(getHumanChoice(),getComputerChoice());
+function updateStatus() {
+    humanScores.innerText = humanScore;
+    computerScores.innerText = computerScore;
+    
+    if (humanScore > 5) {
+        winOrLose.innerText = "Congrats, You Win!";
+        resetDiv.innerHTML = `<button onclick="resetGame()">Play Again?</button>`;
+        
+    } else if (computerScore > 5) {
+        winOrLose.innerText = "You Lose! Better Luck Next Time";
+        resetDiv.innerHTML = `<button onclick="resetGame()">Play Again?</button>`;
+    }
+
+}
+
+function resetGame() {
+    humanScore = 0;
+    computerScore = 0;
+    humanScores.innerText = "";
+    computerScores.innerText = "";
+    results.innerText = "";
+    winOrLose.innerText = "";
+    resetDiv.innerHTML = "";
+}
